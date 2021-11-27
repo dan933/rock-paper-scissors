@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        h1
+        {
+            text-align: center;
+        }
+        button
+        {
+            background-color: green;
+            border-width: 1px;
+            border-radius: 3px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        input
+        {
+            cursor: pointer;
+        }
+        label
+        {
+            cursor: pointer;
+        }
+
+        form
+        {
+            text-align: center;                     
+        }
+
+        #warning
+        {
+            color: red;
+            margin-top:10px;
+            font-size: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Rock Paper Scissors</h1>
+    <form id="game-form">
+        <label>
+            <input id="player-rock" type="checkbox" value="0">Rock
+        </label>
+        <label>
+            <input id="player-paper" type="checkbox" value="1">Paper
+        </label>
+        <label>
+            <input id="player-scissors" type="checkbox" value="0">Scissors
+        </label>
+        <br>
+        <p id="warning">Please enter rock, paper or scissors</p>
+        <button type="button" onclick="calcWinner()">Submit</button>    
+    </form>
+    
+
+
+    <script>
+        function getRandomInt(){
+            return Math.floor(Math.random() * 3)
+        }        
+
+        var playerRock = document.querySelector('#player-rock');
+        var playerPaper = document.querySelector('#player-paper');
+        var playerScissors = document.querySelector('#player-scissors');
+
+        var gameForm = document.getElementById('game-form')
+        var selection = document.getElementById('game-form').querySelectorAll('input');
+        
+        //Listens for changes in the form only allows one selection
+        gameForm.addEventListener('change',
+        function() {
+            var isSelected = false          
+            selection.forEach((s) =>
+            {                
+                s.checked ? isSelected = true: null;                
+            });
+            
+            if(isSelected)
+            {
+                selection.forEach((s) =>
+                {
+                    s.checked ? s.disabled = false: s.disabled= true;
+                    
+                });
+            } else {
+                selection.forEach((s) =>
+                {
+                    s.disabled = false;
+                    
+                });
+            }
+        });
+        
+        //onsubmit
+        var submitButton = gameForm.querySelector('#submitButton');       
+
+        function calcWinner(){
+            var computerSelection = getRandomInt();           
+
+            var playerSelection = null;
+
+            //Assign value to playerSelection
+            selection.forEach((s) =>
+            {
+                if(s.checked)
+                {
+                    playerSelection = s.value;
+                }                                          
+            });
+            
+
+            var warningDiv = document.getElementById('warning');
+            var submitButton = document.querySelector('button');
+
+            //If playerSelection is Null
+            if(playerSelection === null)
+            {               
+                //show warning
+                warningDiv.style.display = "block";
+                submitButton.style.marginTop = "2px";
+
+            } else {
+
+                //show warning
+                warningDiv.style.display = "none";
+                submitButton.style.marginTop = "10px";
+
+                var isWinner = null;
+
+                //Rock Beats scissors
+                if(playerSelection == 0 && computerSelection == 2 )
+                {
+                    isWinner = true;
+                };
+                
+                if(playerSelection == 2 && computerSelection == 0)
+                {
+                    isWinner = false;
+                };
+                
+                //papper beats rock
+                if(playerSelection == 1 && computerSelection == 0)
+                {
+                    isWinner = true;
+                };
+
+                if(playerSelection == 0 && computerSelection == 1)
+                {
+                    isWinner = false;
+                };
+                
+
+                //Scissors beats papper
+                if(playerSelection == 2 && computerSelection == 1)
+                {
+                    isWinner = true;
+                };
+
+                if(playerSelection == 1 && computerSelection == 2)
+                {
+                    isWinner = false;
+                };
+
+                console.log("Player: ",playerSelection);
+                console.log("Computer: ",computerSelection);
+                console.log(isWinner);
+
+                //Todo display results function
+
+            }
+        };
+
+        function displayResults(player,computer,isWinner){
+            var array = ["Rock","Paper","Scissors"]
+            var output = {
+                result:isWinner,
+                playerChoice:array[player],
+                computerChoice:array[computer]
+            }
+
+            if(output.result)
+            {
+                //todo document to display in result div
+            }
+
+        }
+    </script>
+</body>
+</html>
