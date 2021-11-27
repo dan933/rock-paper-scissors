@@ -39,6 +39,17 @@
             font-size: 10px;
             display: none;
         }
+
+        #results
+        {
+            text-align: center;
+        }
+
+        p
+        {   
+            display: inline-block; text-align: left;          
+        }
+
     </style>
 </head>
 <body>
@@ -57,6 +68,8 @@
         <p id="warning">Please enter rock, paper or scissors</p>
         <button type="button" onclick="calcWinner()">Submit</button>    
     </form>
+    <div id="results">
+    </div>
     
 
 
@@ -172,21 +185,44 @@
                 console.log(isWinner);
 
                 //Todo display results function
+                displayResults(playerSelection,computerSelection,isWinner);
 
             }
         };
 
         function displayResults(player,computer,isWinner){
             var array = ["Rock","Paper","Scissors"]
-            var output = {
-                result:isWinner,
+            var output = {                
                 playerChoice:array[player],
                 computerChoice:array[computer]
             }
 
-            if(output.result)
+            var resultDiv = document.getElementById('results');
+            
+            var result = '';
+            if(isWinner)
             {
-                //todo document to display in result div
+                
+                result += `<p>Player Selection: ${output.playerChoice}<br>\
+                            Computer Selection: ${output.computerChoice}\
+                            </p>\
+                            <h1>Congratulations you won at a game of luck!!</h1>`;
+                resultDiv.innerHTML = result;                
+            }
+
+            if(isWinner === null)
+            {
+                result += `<p>Player Selection: ${output.playerChoice}<br>\
+                            Computer Selection: ${output.computerChoice}\
+                            </p>\
+                            <h1>You are evenly matched try again?</h1>`;
+                resultDiv.innerHTML = result;   
+            }else if(!isWinner){
+                result += `<p>Player Selection: ${output.playerChoice}<br>\
+                            Computer Selection: ${output.computerChoice}\
+                            </p>\
+                            <h1>Better luck next time champ</h1>`;
+                resultDiv.innerHTML = result;
             }
 
         }
